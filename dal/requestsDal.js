@@ -1,10 +1,22 @@
-function RequestToServer(serverUrl, methodType, data, contentType)
+function RequestToServer(serverUrl, methodType, reqData, asynchronous)
 {
+    var response;
+
        $.ajax({
-        url:serverUrl,
         type:methodType,
-        data: JSON.stringify(data),
-        contentType: "application/json",
+        url:serverUrl,
+        data: reqData,
+        dataType: "json",
+        async: asynchronous
     })
- //armar una consulta ajax donde los datos pasados por parametro completen los datos del request
+    .done(function(respData){
+        response =  respData;
+    })
+    .fail(function(){
+        response =  false;
+    });
+
+    return response;
+
 }
+

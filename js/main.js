@@ -1,7 +1,14 @@
 $(document).ready(function(){
 
-    traerVehiculosEnPlaya(function(){
-//    $(document).ready(function(){
+        //datos de usuario ---------------
+
+        //VERIFICO LA SECION
+  /*      if(!VerifyCurrentSession()){
+            RedirectTo('./login.html');
+        };
+*/
+        //IMPRIMO SALUDO AL USUARIO
+        $('.userLoginInfo').html('Usuario: '+ CurrentUserName());
 
         //botones ------------------
 
@@ -25,7 +32,8 @@ $(document).ready(function(){
 
         //LOG OUT
         $('#btnLogout').click(function(){
-            alert("btnLogout");
+            ClearLocalStorageSessionData();
+            RedirectTo('./login.html');
         });
 
         //INGRESO VEHICULO
@@ -33,21 +41,10 @@ $(document).ready(function(){
             alert("btnVehicleIn");
         });
 
-        //CALCULAR ESTADIA
-        $('#btnVehicleCalc').click(function(){
-            var id = $('.tableInfoVehiculo').attr("data-valor");
-            var fechaIngreso = $('#fechaIgresoVehiculo').html();
-
-            fechaIngreso = "1234"; //Dato cualquiera hasta definir la forma de manejar las fechas
-
-            calcularEstadia(fechaIngreso);
-
-            $('#btnVehicleCalc').attr("disabled", true); //oculto
-            $('#btnVehicleOut').attr("disabled", false); //visible
-        });
 
         //EGRESO VEHICULO
         $('#btnVehicleOut').click(function(){
+            e.preventDefault();
 
             $('.datosVehiculo').html(""); //reseteo los campos 
             $('.importeAPagar').html(""); //reseteo los campos
@@ -60,7 +57,6 @@ $(document).ready(function(){
         $(".clickOnTable").click(function(e) {
             e.preventDefault();
             var id = $(this).attr("data-valor");
-            traerDatosVehiculo(id);
             
             $('.datosVehiculo').html(""); //reseteo los campos 
             $('.importeAPagar').html(""); //reseteo los campos
@@ -92,6 +88,18 @@ $(document).ready(function(){
                         }
                     }
                 },
+                txtModeloVehicleIn: {
+                    validators: {
+                            stringLength: {
+                            min: 2,
+                            max: 25,
+                            message: 'Ingrese una marca valida'
+                        },
+                            notEmpty: {
+                            message: 'Debe ingresar una marca'
+                        }
+                    }
+                },
                 txtMarcaVehicleIn: {
                     validators: {
                             stringLength: {
@@ -113,5 +121,4 @@ $(document).ready(function(){
 
 
     //-----------$(document).ready
-    });
 });

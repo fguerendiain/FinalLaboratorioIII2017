@@ -6,19 +6,23 @@ $(document).ready(function(){
     */
     var shownName = CurrentUserName()
     if(shownName){
-        $('#txtUserName').val(CurrentUserName());
+        if(shownName != 'undefined'){
+            $('#txtUserName').val(CurrentUserName());
+        }else{
+            ClearLocalStorageSessionData();
+        }
     }
+    
     
     $('#btnLogIn').click(function(){
         var usarname = $('#txtUserName').val();
         var password = $('#txtPassword').val();
-        session = CreateSession(usarname,password);
-        if(session != true){
+        var session = CreateSession(usarname,password);
+        if(session == 1){
+            RedirectTo('./index.html');
+        }else{
             alert(session);
             ClearLocalStorageSessionData();
-            return;
         }
-        RedirectTo('./index.html');
     });
-
 });

@@ -1,6 +1,8 @@
-const SERVER = 'http://francoguerendiain.esy.es/';
 
 
+/*
+ * Obtien el valor de token del localStorage, si no existe retorna false
+ * */
 function CurrentSession(){
     var token = localStorage.getItem('token');
     if(token != null){
@@ -9,7 +11,9 @@ function CurrentSession(){
     return false;
 }
 
-
+/*
+ * Obtien el valor de username del localStorage, si no existe retorna false
+ * */
 function CurrentUserName(){
     var username = localStorage.getItem('username');
     if(username != null){
@@ -18,51 +22,54 @@ function CurrentUserName(){
     return false;
 }
 
-
+/*
+ * Elimina token y username de localstorage
+ * */
 function ClearLocalStorageSessionData(){
     localStorage.removeItem('token');
     localStorage.removeItem('username');
 }
 
-
+/*
+ * Envia los datos de login al servidor y retorna una session o un mensage
+ * */
 function CreateSession(user, pass){
+    var resp = "El servidor no responde, Intente nuevamente o comuniquese con el administrador del sistema";
     data = {username : user, password : pass};
-    var session = RequestToServer(SERVER+'session','POST',data,false);
+    var session = RequestToServer('/session','POST','header',data,false);
     if(session){
-        if(session.error != null){
-            return session.error;
+        if(session.message != null){
+            resp = session.message;
         }else{
             localStorage.setItem('token',session.token);
             localStorage.setItem('username',session.username);
-            return true;
+            resp = 1;
         }
     }
-    return "El servidor no responde, Intente nuevamente o comuniquese con el administrador del sistema";
+    return resp;
 }
 
-
+/*
+ * Consulta al servidor si la session guardada es valida
+ * */
 function VerifySession(){
-    token = CurrentSession();
-    var validSession = RequestToServer(SERVER+'session','GET',token);
+    var resp = "El servidor no responde, Intente nuevamente o comuniquese con el administrador del sistema";
+    var token = CurrentSession();
+    data = {'vacio': '0'};
+    var validSession = RequestToServer('/session','GET',token,data,false);
     if(validSession){
-        if(validSession.mensaje != null){
-            return validSession.mensaje;
+        if(validSession.message != null){
+            resp = validSession.message;
         }
-        return true;
+        resp = true;
     }
-    return "El servidor no responde, Intente nuevamente o comuniquese con el administrador del sistema";
+    return resp;
 } 
 
-
-function VerifyCurrentSession(){
-    var validSession = VerifySession(); 
-    if(validSession != CurrentSession()){
-            alert(validSession);
-            return false;
-    }
-    return true;
-}
-
+/*
+ * Redirecciona a la pagina indicada
+ * */
 function RedirectTo(url){
-    window.location.replace(url);
+    window.location.href = url;
+
 }

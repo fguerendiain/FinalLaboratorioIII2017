@@ -96,7 +96,15 @@ body{
 }
 
 .importeAPagar{
-    height: 80px;
+    height: 110px;
+    padding: 15px;
+    margin: 5px;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
+    background-color: #CCCCFF;
+/*    height: 80px;
     padding: 5px;
     margin: 5px;
     border: 1px;
@@ -107,7 +115,7 @@ body{
     text-align: center;
     vertical-align: middle;
     font-size: 400%;
-}
+*/}
 
 /*----------------------------------------------------------------*/
 

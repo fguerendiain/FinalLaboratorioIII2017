@@ -5,20 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <title>ParkHour</title>
+
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
+
+    <!--Tools-->
     <script src="dal/requestsDal.js"></script>
+    <!--Tools-->
+
+
+    <!--Views-->
+    <script src="views/parkedVehicleTable.js"></script>
+    <script src="views/parkingInfoBox.js"></script>
+    <script src="views/parkingOutBox.js"></script>
+    <script src="views/placeFree.js"></script>
+    <!--Views-->
+
+
+    <!--Requests-->
     <script src="requests/sessionRequests.js"></script>
+    <script src="requests/reportsRequests.js"></script>
+    <script src="requests/parkingRequests.js"></script>
+    <script src="requests/placeRequests.js"></script>
+    <!--Requests-->
+
+
     <script src="js/main.js"></script>
+
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/bootstrapvalidator/dist/css/bootstrapValidator.min.css">
+
+
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/login.css">
 
-    <title>ParkHour</title>
 
 </head>
 <body>
@@ -42,25 +66,29 @@
                     <form class="form" action="#" method="post" id="formVehicleIn">
                         <div class="form-inline" "form-group">
                             <label >Patente</label><br>
-                            <input class = "form-control" type="radio" id="patenteselectorNac"  name="patenteselector" value="patentenacional" checked> Nacional
-                            <input class = "form-control" name="txtPatenteNacVehicleIn" type="text">
-                            <input class = "form-control" type="radio" id="patenteselectorExt" name="patenteselector" value="patenteextrangera"> Extrangera
-                            <input class = "form-control" name="txtPatenteExtVehicleIn" type="text" disabled="true">
+                            <input class = "form-control" type="radio" id="patenteselectorNac"  name="patenteselector" value="local" checked> Nacional
+                            <input class = "form-control" id="txtPatenteNacVehicleInId" name="txtPatenteNacVehicleIn" type="text">
+                            <input class = "form-control" type="radio" id="patenteselectorExt" name="patenteselector" value="alien"> Extrangera
+                            <input class = "form-control" id="txtPatenteExtVehicleInId" name="txtPatenteExtVehicleIn" type="text" disabled="true">
                        </div>
                         <div class="form-group">
                             <label>Color</label>
-                            <input class = "form-control" name="txtColorVehicleIn" type="text">
+                            <input class = "form-control" id="txtColorVehicleInId" name="txtColorVehicleIn" type="text">
                        </div>
                         <div class="form-group">
                             <label>Modelo</label>
-                            <input class = "form-control" name="txtModeloVehicleIn" type="text">
+                            <input class = "form-control" id="txtModeloVehicleInId" name="txtModeloVehicleIn" type="text">
                        </div>
                         <div class="form-group">
                             <label>Marca</label>
-                            <input class = "form-control" name="txtMarcaVehicleIn" type="text">
+                            <input class = "form-control" id="txtMarcaVehicleInId" name="txtMarcaVehicleIn" type="text">
                        </div>
                         <div class="form-group">
-                            <button class= "btn btn-success btn-block" id="btnVehicleIn" disabled="true">INGRESO</button>
+                            <label>Cochera</label>
+                            <div class="cmbCochera"></div>
+                       </div>
+                        <div class="form-group">
+                            <button class= "btn btn-success btn-block" id="btnVehicleIn">INGRESO</button>
                        </div>
                     </form>
                 </div>
@@ -69,7 +97,7 @@
 
                     <div class="datosVehiculo"><!--MUESTRO DATOS DEL VEHICULO--></div>
 
-                    <div class="importeAPagar col-sm-5"><!--MUESTRO EL TOTAL A PAGAR POR LA ESTADIA--></div>
+                    <div class="importeAPagar"><!--MUESTRO EL TOTAL A PAGAR POR LA ESTADIA--></div>
 
                     <div>
                         <button class= "btn btn-danger btn-block" id="btnVehicleOut" disabled="true">EGRESO</button>

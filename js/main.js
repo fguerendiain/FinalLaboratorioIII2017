@@ -5,25 +5,18 @@ $(document).ready(function(){
         //VERIFICO LA SESION
         var validSession = VerifySession(); 
         if(validSession != true){
-            alert(validSession)
             RedirectTo('./login.html');
         };
 
-        //IMPRIMO SALUDO AL USUARIO
-        $('.userLoginInfo').html('Usuario: '+ CurrentUserName());
 
+        //IMPRIMO SALUDO AL USUARIO
+        loadUserGreeting();
 
         //TRAIGO LISTADO DE VEHICULOS EN PLAYA Y LO IMPRIMO
-        var parkedVehicles = GetParkedVehicles();
-        if(parkedVehicles){
-            $('.vehicleDinamicTable').html(parkedVehicles);
-        }
+        loadParkedVehicles();
 
         //TRAIGO LISTADO DE COCHERAS Y LO IMPRIMO
-        var placeList = GetAllPlace();
-        if(placeList){
-            $('.cmbCochera').html(placeList);
-        }
+        loadNonTakenPlaces();
 
 
         //botones ------------------
@@ -46,35 +39,38 @@ $(document).ready(function(){
             alert("btnControlPanel");
         });
 
+
         //LOG OUT
         $('#btnLogout').click(function(){
             ClearLocalStorageSessionData();
             RedirectTo('./login.html');
         });
 
+
         //INGRESO VEHICULO
         $('#btnVehicleIn').click(function(){ 
             var license;
-            var alien = $("#form-inline input[type='radio']:checked").val();
-            if(alien == 'local'){
+            var alien;            
+            if(document.getElementById('patenteselectorNac').checked){
                 license = $('#txtPatenteNacVehicleInId').val();
-                alien == false;
+                alien = 'false';
             }else{
                 license = $('#txtPatenteExtVehicleInId').val();
-                alien ==true;
+                alien = 'true';
             }
+            
             var colour = $('#txtColorVehicleInId').val();
             var model = $('#txtModeloVehicleInId').val();
             var brand = $('#txtMarcaVehicleInId').val();
-            var place = $('#selectedPlace option:selected').text();
+            var place = $('#selectedPlace option:selected').val();
+            var name = GetNamePlaceById(place);
+            var floor = GetNameFloorById(place);
 
-            var newParking = CrateParking(license, alien, colour, model, brand, place);
+            var newParking = CrateParking(license, alien, colour, model, brand, name, floor);
             if(newParking){
                 alert("Se Ingreso el vehiculo correctamente");
-                var parkedVehicles = GetParkedVehicles();
-                if(parkedVehicles){
-                    $('.vehicleDinamicTable').html(parkedVehicles);
-                }
+                loadParkedVehicles();
+                loadNonTakenPlaces();
             }
       
         });
@@ -105,15 +101,17 @@ $(document).ready(function(){
             if(parkingOutBox){
                 $('.importeAPagar').html(parkingOutBox);
             }
-
-            var parkedVehicles = GetParkedVehicles();
-            if(parkedVehicles){
-                $('.vehicleDinamicTable').html(parkedVehicles);
-            }
-
-
+            loadParkedVehicles();
             $('#btnVehicleOut').attr("disabled", true); //oculto
         });
+
+
+
+
+
+
+
+
 
         //BOOTSTRAP VALIDATOR btnVehicleIn
         $('#formVehicleIn').bootstrapValidator({

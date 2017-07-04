@@ -47,3 +47,4 @@ function FormatTime(unixTimestamp,soloHora = false) {
     return day + "/" + month + "/" + year + " - " + hours + ":" + minutes + "Hs";
 
 }       
+

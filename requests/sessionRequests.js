@@ -55,8 +55,7 @@ function CreateSession(user, pass){
 function VerifySession(){
     var resp = "El servidor no responde, Intente nuevamente o comuniquese con el administrador del sistema";
     var token = CurrentSession();
-    data = {'vacio': '0'};
-    var validSession = RequestToServer('/session','GET',token,data,false);
+    var validSession = RequestToServer('/session','GET',token,'',false);
     if(validSession){
         if(validSession.message != null){
             resp = validSession.message;
